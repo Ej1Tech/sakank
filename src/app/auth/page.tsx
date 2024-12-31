@@ -1,15 +1,15 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
-const AuthPage = () => {
+const AuthPageContent = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
     if (!searchParams) return;
 
-    // Extract query parameters with safe defaults
+    // Extract query parameters
     const type = searchParams.get("type") || "unknown";
     const phoneNumber = searchParams.get("phoneNumber") || "N/A";
     const password = searchParams.get("password") || "N/A";
@@ -17,7 +17,7 @@ const AuthPage = () => {
     const contactInfo = searchParams.get("contactInfo") || "N/A";
     const whatsApp = searchParams.get("whatsApp") || "N/A";
 
-    // Log query parameters conditionally
+    // Log query parameters (only in development)
     if (process.env.NODE_ENV === "development") {
       console.log("Auth Type:", type);
       console.log("Phone Number:", phoneNumber);
@@ -38,6 +38,14 @@ const AuthPage = () => {
         Check the console for the data submitted through the forms.
       </p>
     </div>
+  );
+};
+
+const AuthPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AuthPageContent />
+    </Suspense>
   );
 };
 

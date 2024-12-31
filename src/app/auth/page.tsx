@@ -7,23 +7,27 @@ const AuthPage = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    // Extract query parameters
-    const type = searchParams.get("type");
-    const phoneNumber = searchParams.get("phoneNumber");
-    const password = searchParams.get("password");
-    const userName = searchParams.get("userName");
-    const contactInfo = searchParams.get("contactInfo");
-    const whatsApp = searchParams.get("whatsApp");
+    if (!searchParams) return;
 
-    // Log the data to the console
-    console.log("Auth Type:", type);
-    console.log("Phone Number:", phoneNumber);
-    console.log("Password:", password);
+    // Extract query parameters with safe defaults
+    const type = searchParams.get("type") || "unknown";
+    const phoneNumber = searchParams.get("phoneNumber") || "N/A";
+    const password = searchParams.get("password") || "N/A";
+    const userName = searchParams.get("userName") || "N/A";
+    const contactInfo = searchParams.get("contactInfo") || "N/A";
+    const whatsApp = searchParams.get("whatsApp") || "N/A";
 
-    if (type === "signup") {
-      console.log("User Name:", userName);
-      console.log("Contact Info:", contactInfo);
-      console.log("WhatsApp:", whatsApp);
+    // Log query parameters conditionally
+    if (process.env.NODE_ENV === "development") {
+      console.log("Auth Type:", type);
+      console.log("Phone Number:", phoneNumber);
+      console.log("Password:", password);
+
+      if (type === "signup") {
+        console.log("User Name:", userName);
+        console.log("Contact Info:", contactInfo);
+        console.log("WhatsApp:", whatsApp);
+      }
     }
   }, [searchParams]);
 
